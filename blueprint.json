@@ -1,0 +1,48 @@
+{
+  "$schema": "https://playground.wordpress.net/blueprint-schema.json",
+  "meta": {
+    "title": "Bidri Crafts — store demo",
+    "description": "Demo of the Bidri Crafts WooCommerce store. Runs entirely in your browser; nothing is saved and no real payments are taken.",
+    "author": "arunkumarpatil24j2007-cmd"
+  },
+  "landingPage": "/",
+  "preferredVersions": { "php": "8.3", "wp": "latest" },
+  "features": { "networking": true },
+  "steps": [
+    { "step": "setSiteOptions", "options": { "blogname": "Bidri Crafts", "blogdescription": "Authentic GI-certified Bidriware, handmade in Bidar", "timezone_string": "Asia/Kolkata" } },
+    { "step": "installPlugin", "pluginData": { "resource": "wordpress.org/plugins", "slug": "woocommerce" }, "options": { "activate": true } },
+    { "step": "installTheme", "themeData": { "resource": "url", "url": "https://raw.githubusercontent.com/arunkumarpatil24j2007-cmd/bidricrafts-demo/main/bidri-crafts.zip" }, "options": { "activate": true } },
+    { "step": "unzip", "zipFile": { "resource": "url", "url": "https://raw.githubusercontent.com/arunkumarpatil24j2007-cmd/bidricrafts-demo/main/bidri-demo-data.zip" }, "extractToPath": "/wordpress/bidri-demo" },
+    { "step": "setSiteOptions", "options": {
+        "woocommerce_default_country": "IN:KA",
+        "woocommerce_currency": "INR",
+        "woocommerce_currency_pos": "left",
+        "woocommerce_price_thousand_sep": ",",
+        "woocommerce_price_decimal_sep": ".",
+        "woocommerce_price_num_decimals": "0",
+        "woocommerce_allowed_countries": "specific",
+        "woocommerce_specific_allowed_countries": ["IN"],
+        "woocommerce_ship_to_countries": "specific",
+        "woocommerce_specific_ship_to_countries": ["IN"],
+        "woocommerce_calc_taxes": "no",
+        "woocommerce_prices_include_tax": "yes",
+        "woocommerce_manage_stock": "yes",
+        "woocommerce_enable_guest_checkout": "yes",
+        "woocommerce_checkout_phone_field": "required",
+        "woocommerce_checkout_company_field": "hidden",
+        "woocommerce_thumbnail_cropping": "1:1",
+        "woocommerce_coming_soon": "no",
+        "woocommerce_allow_tracking": "no",
+        "woocommerce_show_marketplace_suggestions": "no",
+        "woocommerce_task_list_hidden": "yes",
+        "woocommerce_onboarding_profile": { "skipped": true },
+        "woocommerce_demo_store": "yes",
+        "woocommerce_demo_store_notice": "Demo store — browse freely. Orders here are not real and no money is taken.",
+        "woocommerce_cod_settings": { "enabled": "yes", "title": "Demo payment (no money is taken)", "description": "In the live store this step is Razorpay: UPI, cards and netbanking.", "instructions": "", "enable_for_methods": [], "enable_for_virtual": "yes" },
+        "woocommerce_permalinks": { "product_base": "/product", "category_base": "collection", "tag_base": "product-tag", "attribute_base": "", "use_verbose_page_rules": false }
+    } },
+    { "step": "wp-cli", "command": "wp rewrite structure /%postname%/" },
+    { "step": "wp-cli", "command": "wp eval-file /wordpress/bidri-demo/lib/import.php /wordpress/bidri-demo" },
+    { "step": "wp-cli", "command": "wp rewrite flush" }
+  ]
+}
