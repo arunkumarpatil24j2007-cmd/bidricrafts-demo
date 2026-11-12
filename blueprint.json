@@ -107,7 +107,7 @@
     },
     {
       "step": "runPHP",
-      "code": "<?php\nrequire_once '/wordpress/wp-load.php';\nif ( ! class_exists( 'WP_CLI' ) ) { class WP_CLI { static function log( $m ) {} static function warning( $m ) { error_log( $m ); } static function success( $m ) {} } }\n$args = array( '/wordpress/bidri-demo' );\nrequire '/wordpress/bidri-demo/lib/import.php';\nupdate_option( 'permalink_structure', '/%postname%/' );\nflush_rewrite_rules();\n"
+      "code": "<?php\ndefine( 'BIDRI_LIGHT_MEDIA', true );\nrequire_once '/wordpress/wp-load.php';\nif ( ! class_exists( 'WP_CLI' ) ) { class WP_CLI { static function log( $m ) {} static function warning( $m ) { error_log( $m ); } static function success( $m ) {} } }\n$args = array( '/wordpress/bidri-demo' );\nrequire '/wordpress/bidri-demo/lib/import.php';\nupdate_option( 'permalink_structure', '/%postname%/' );\nflush_rewrite_rules();\n"
     }
   ]
 }
