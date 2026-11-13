@@ -48,6 +48,16 @@
       }
     },
     {
+      "step": "installPlugin",
+      "pluginData": {
+        "resource": "url",
+        "url": "https://raw.githubusercontent.com/arunkumarpatil24j2007-cmd/bidricrafts-demo/main/bidri-studio.zip"
+      },
+      "options": {
+        "activate": true
+      }
+    },
+    {
       "step": "unzip",
       "zipFile": {
         "resource": "url",
@@ -107,7 +117,7 @@
     },
     {
       "step": "runPHP",
-      "code": "<?php\ndefine( 'BIDRI_LIGHT_MEDIA', true );\nrequire_once '/wordpress/wp-load.php';\nif ( ! class_exists( 'WP_CLI' ) ) { class WP_CLI { static function log( $m ) {} static function warning( $m ) { error_log( $m ); } static function success( $m ) {} } }\n$args = array( '/wordpress/bidri-demo' );\nrequire '/wordpress/bidri-demo/lib/import.php';\nupdate_option( 'permalink_structure', '/%postname%/' );\nflush_rewrite_rules();\n"
+      "code": "<?php\ndefine( 'BIDRI_LIGHT_MEDIA', true );\nrequire_once '/wordpress/wp-load.php';\nif ( ! class_exists( 'WP_CLI' ) ) { class WP_CLI { static function log( $m ) {} static function warning( $m ) { error_log( $m ); } static function success( $m ) {} } }\n$args = array( '/wordpress/bidri-demo' );\nrequire '/wordpress/bidri-demo/lib/import.php';\nupdate_option( 'permalink_structure', '/%postname%/' );\nflush_rewrite_rules();\n// Demo: three sample orders so Studio has something to show.\n$mk = function ( $items, $name, $status, $note = '' ) {\n\t$o = wc_create_order();\n\tforeach ( $items as $sku => $q ) { $p = wc_get_product( wc_get_product_id_by_sku( $sku ) ); if ( $p ) { $o->add_product( $p, $q ); } }\n\t[ $f, $l ] = explode( ' ', $name, 2 );\n\t$a = array( 'first_name' => $f, 'last_name' => $l, 'address_1' => '12 MG Road', 'city' => 'Bengaluru', 'state' => 'KA', 'postcode' => '560001', 'country' => 'IN', 'phone' => '9876543210', 'email' => strtolower( $f ) . '@example.com' );\n\t$o->set_address( $a, 'billing' ); $o->set_address( $a, 'shipping' );\n\t$o->set_payment_method( 'cod' ); $o->set_payment_method_title( 'Demo payment' ); $o->set_customer_note( $note );\n\t$o->calculate_totals(); $o->set_date_paid( time() ); $o->save();\n\t$o->update_status( $status );\n};\n$mk( array( 'BC-DEC-003' => 1 ), 'Priya Sharma', 'completed', 'Happy Diwali, Amma! With love, Priya' );\n$mk( array( 'BC-DEC-001' => 1, 'BC-DEC-005' => 1 ), 'Rahul Verma', 'processing' );\n$mk( array( 'BC-DEC-004' => 1 ), 'Ananya Iyer', 'processing', 'Please gift wrap' );\n"
     }
   ]
 }
