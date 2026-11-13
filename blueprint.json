@@ -25,7 +25,7 @@
     {
       "step": "writeFile",
       "path": "/wordpress/wp-content/mu-plugins/bidri-demo.php",
-      "data": "<?php\n// Demo only: photos are already web-sized, so skip generating resized copies (saves browser memory).\nadd_filter( 'intermediate_image_sizes_advanced', '__return_empty_array' );\nadd_filter( 'big_image_size_threshold', '__return_false' );\nadd_filter( 'woocommerce_background_image_regeneration', '__return_false' );\n"
+      "data": "<?php\n// Demo only: photos are already web-sized, so skip generating resized copies (saves browser memory).\nadd_filter( 'intermediate_image_sizes_advanced', '__return_empty_array' );\nadd_filter( 'big_image_size_threshold', '__return_false' );\nadd_filter( 'woocommerce_background_image_regeneration', '__return_false' );\n// Demo only: the first visit to WooCommerce's welcome page opens Studio instead (the owner panel).\nadd_action( 'admin_init', function () {\n\tif ( 'wc-admin' === ( $_GET['page'] ?? '' ) && empty( $_GET['path'] ) && empty( $_COOKIE['bidri_demo_seen'] ) ) {\n\t\tsetcookie( 'bidri_demo_seen', '1', 0, '/' );\n\t\twp_safe_redirect( admin_url( 'admin.php?page=bidri-studio' ) );\n\t\texit;\n\t}\n}, 1 );\n"
     },
     {
       "step": "installPlugin",
